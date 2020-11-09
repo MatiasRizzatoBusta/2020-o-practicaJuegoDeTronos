@@ -1,5 +1,3 @@
-import personaje.*
-
 class Animal{
 	method patrimonio() = 0
 	
@@ -13,7 +11,7 @@ class Dragon inherits Animal{
 }
 
 class Lobo inherits Animal{
-	var raza = comun
+	var raza
 	
 	override method esPeligroso() = raza.esHungaro()
 	

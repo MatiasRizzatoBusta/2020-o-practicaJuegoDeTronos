@@ -2,12 +2,16 @@ import personaje.*
 
 class Familia {
 	var patrimonio = 0
-	var ciudadProveniente
+	var ciudadProveniente = ""
 	var miembros = []
-		
+	
 	method permiteCasamiento(familiar,conyugue)
 	
 	method miembros() = miembros
+	
+	method agregarCiudad(ciudad){
+		ciudadProveniente = ciudad
+	}
 	
 	method patrimonio() = patrimonio
 	
@@ -20,6 +24,14 @@ class Familia {
 	method esRica() = patrimonio > 1000
 	
 	method cantIntegrantes() = miembros.size()
+	
+	method familiaresDe(persona) = miembros.filter({familiar => not(familiar.esEl(persona))})
+	
+	method disminuirPatrimonio(cantidad){
+		patrimonio -= cantidad
+	}
+	
+	method miembrosSolteros() = miembros.filter({miembro => miembro.soltero()})
 	
 }
 

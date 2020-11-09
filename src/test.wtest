@@ -1,14 +1,15 @@
 import personaje.*
 import familias.*
 import animales.*
+import conspiraciones.*
 
-
-const jon = new Personaje(familia = guardiaDeLaNoche)
-const sansa = new Personaje(familia = stark)
-const jofferey = new Personaje(familia = lannister)
-const cercei = new Personaje(familia = lannister)
-const rob = new Personaje(familia = stark,conyugues = [cercei])
+const jon = new Personaje(nombre = "jon",familia = guardiaDeLaNoche,personalidad = asesino)
+const sansa = new Personaje(nombre = "sansa",familia = stark,personalidad = asesinoPrecavido)
+const jofferey = new Personaje(nombre = "jofferey",familia = lannister,personalidad = disipado)
+const cercei = new Personaje(nombre ="cercei",familia = lannister, personalidad = asesino)
+const rob = new Personaje(nombre = "rob",familia = stark,personalidad = miedoso)
 const ghost = new Lobo(raza = hungaro)
+const conspiracion = new Conspiracion(objetivo = cercei,complotados = [jon,sansa,rob,jofferey])
 
 test "un personaje se puede casar con otro" {
 	sansa.casarse(jofferey)
@@ -39,6 +40,7 @@ test "patrimonio de cercei"{
 test "un personaje es peligroso por tener un acompaniante peligroso"{
 	jon.agregarAcompaniante(ghost)
 	assert.that(jon.esPeligroso())
+	assert.equals([ghost],jon.aliados())
 }
 
 test "un personaje es peligroso por tener 10000 monedas de oro"{
@@ -46,6 +48,23 @@ test "un personaje es peligroso por tener 10000 monedas de oro"{
 	lannister.agregarMiembro(jofferey)
 	lannister.agregarPatrimonio(10000)
 	assert.that(cercei.esPeligroso())
+	
+}
+/* 
+test "se crea una conspiracion contra cercei"{
+	lannister.agregarMiembro(cercei)
+	lannister.agregarMiembro(jofferey)
+	lannister.agregarPatrimonio(10000)
+	assert.that(armarConspiracion.armar(cercei,[rob,sansa,jon,jofferey]))
+	
+}
+*/
+
+test "calculo cuantos traidores hay en una conspiracion"{
+	lannister.agregarMiembro(cercei)
+	lannister.agregarMiembro(jofferey)
+	lannister.agregarPatrimonio(10000)
+	assert.equals(1,conspiracion.cantidadDeTraidores())
 	
 }
 

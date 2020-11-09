@@ -2,13 +2,20 @@ import familias.*
 import animales.*
 
 class Personaje {
+	var nombre
 	var familia
 	var conyugues = []
 	var acompaniantes = []
+	var estaVivo = true
+	var personalidad
 	
 	method cantidadDeConyugues() = conyugues.size()
 	
 	method conyugues() = conyugues
+	
+	method nombre() = nombre
+	
+	method soltero() = conyugues.size() == 0
 	
 	method agregarAcompaniante(acompaniante) = acompaniantes.add(acompaniante)
 	
@@ -29,17 +36,15 @@ class Personaje {
 	
 	method patrimonio() = familia.patrimonio() / familia.cantIntegrantes()
 	
-	method estaVivo() = true
+	method estaVivo() = estaVivo
+	
+	method morir(){
+		estaVivo = false		
+	}
 	
 	method estaSolo() = acompaniantes.size() == 0
 	
-	method aliados(){
-		const listado = conyugues
-		familia.miembros().forEach({miembro => listado.add(miembro)})
-		acompaniantes.forEach({acompaniante => listado.add(acompaniante)})
-		return listado
-		
-	}
+	method aliados() = conyugues + acompaniantes + familia.familiaresDe(self)
 	
 	method esDeFamiliaRica() = familia.esRica()
 	
@@ -53,6 +58,68 @@ class Personaje {
 		}
 	}
 	
+	method realizarAccion(objetivo) = personalidad.accion(objetivo)
 	
+	method derrocharDinero(cantidadDerrochada) = familia.disminuirPatrimonio(cantidadDerrochada)
 	
+	method esAliadoDe(persona){
+		const listaAliados = self.aliados()
+		return listaAliados.any({aliado => aliado.esEl(persona)})
+	}
+	
+	method esEl(persona) = nombre == persona.nombre()
+	
+}
+
+
+//PERSONALIDADES
+/* 
+ *  EL BUSCAR INTEGRANTE SOLTERO ME ROMPE LOS DE CASA
+object sutil{
+	var listaCasas 
+	
+	method agregarCasa(casa) = listaCasas.add(casa)
+	
+	method buscoIntegranteSoltero(casa){
+		return casa.miembrosSolteros().findOrElse({miembro => miembro.estaVivo()},{self.error("No hay nadie que cumpla")})
+		
+	}
+	
+	method buscoCasaPobre() = listaCasas.min({casa =>casa.patrimonio()})
+	
+	method accion(objetivo){
+		const casaPobre = self.buscoCasaPobre()
+		const conyuguePobre = self.buscoIntegranteSoltero(casaPobre)
+		objetivo.casarse(conyuguePobre)
+	}
+}
+*/
+object asesino{
+	
+	method accion(objetivo){
+		objetivo.morir()
+	}
+}
+
+object asesinoPrecavido{
+	
+	method accion(objetivo){
+		if(objetivo.estaSolo()){
+			objetivo.morir()
+		}else{
+			self.error("No lo puede asesinar")
+		}
+	}
+}
+
+object disipado{ //como el dinero derrochado es la misma para todos los disipados no lo hago clase
+	
+	method accion(objetivo){
+		objetivo.derrocharDinero(800)
+	}
+}
+
+object miedoso{
+	
+	method accion(objetivo){}
 }
