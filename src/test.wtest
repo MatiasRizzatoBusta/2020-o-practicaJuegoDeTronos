@@ -1,5 +1,6 @@
 import personaje.*
 import familias.*
+import animales.*
 
 
 const jon = new Personaje(familia = guardiaDeLaNoche)
@@ -7,6 +8,7 @@ const sansa = new Personaje(familia = stark)
 const jofferey = new Personaje(familia = lannister)
 const cercei = new Personaje(familia = lannister)
 const rob = new Personaje(familia = stark,conyugues = [cercei])
+const ghost = new Lobo(raza = hungaro)
 
 test "un personaje se puede casar con otro" {
 	sansa.casarse(jofferey)
@@ -17,9 +19,33 @@ test "un personaje se puede casar con otro" {
 test "una persona no se puede casar con otra "{
 	stark.agregarMiembro(rob)
 	stark.agregarMiembro(sansa)
-	
 	assert.throwsExceptionWithMessage("No permite el casamiento",{rob.casarse(sansa)})
 	
 }
 
+test "los lannister son ricos"{
+	lannister.agregarPatrimonio(10000)
+	assert.that(lannister.esRica())
+}
+
+test "patrimonio de cercei"{
+	lannister.agregarMiembro(cercei)
+	lannister.agregarMiembro(jofferey)
+	lannister.agregarPatrimonio(10000)
+	assert.equals(5000,cercei.patrimonio())
+}
+
+
+test "un personaje es peligroso por tener un acompaniante peligroso"{
+	jon.agregarAcompaniante(ghost)
+	assert.that(jon.esPeligroso())
+}
+
+test "un personaje es peligroso por tener 10000 monedas de oro"{
+	lannister.agregarMiembro(cercei)
+	lannister.agregarMiembro(jofferey)
+	lannister.agregarPatrimonio(10000)
+	assert.that(cercei.esPeligroso())
+	
+}
 

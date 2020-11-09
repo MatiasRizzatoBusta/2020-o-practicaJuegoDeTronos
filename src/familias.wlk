@@ -7,6 +7,8 @@ class Familia {
 		
 	method permiteCasamiento(familiar,conyugue)
 	
+	method miembros() = miembros
+	
 	method patrimonio() = patrimonio
 	
 	method agregarPatrimonio(patrimonioNuevo){
