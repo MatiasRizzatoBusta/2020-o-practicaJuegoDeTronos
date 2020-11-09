@@ -1,0 +1,25 @@
+import personaje.*
+import familias.*
+
+
+const jon = new Personaje(familia = guardiaDeLaNoche)
+const sansa = new Personaje(familia = stark)
+const jofferey = new Personaje(familia = lannister)
+const cercei = new Personaje(familia = lannister)
+const rob = new Personaje(familia = stark,conyugues = [cercei])
+
+test "un personaje se puede casar con otro" {
+	sansa.casarse(jofferey)
+	assert.equals([sansa],jofferey.conyugues())
+
+}
+	
+test "una persona no se puede casar con otra "{
+	stark.agregarMiembro(rob)
+	stark.agregarMiembro(sansa)
+	
+	assert.throwsExceptionWithMessage("No permite el casamiento",{rob.casarse(sansa)})
+	
+}
+
+
