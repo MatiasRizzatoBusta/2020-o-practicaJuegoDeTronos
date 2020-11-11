@@ -4,7 +4,7 @@ import animales.*
 class Personaje {
 	var nombre
 	var familia
-	var conyugues = []
+	var conyugues
 	var acompaniantes = []
 	var estaVivo = true
 	var personalidad
@@ -73,27 +73,25 @@ class Personaje {
 
 
 //PERSONALIDADES
-/* 
- *  EL BUSCAR INTEGRANTE SOLTERO ME ROMPE LOS DE CASA
+
 object sutil{
-	var listaCasas 
+	var listaCasas = [lannister,stark,guardiaDeLaNoche]
 	
 	method agregarCasa(casa) = listaCasas.add(casa)
-	
-	method buscoIntegranteSoltero(casa){
-		return casa.miembrosSolteros().findOrElse({miembro => miembro.estaVivo()},{self.error("No hay nadie que cumpla")})
-		
-	}
 	
 	method buscoCasaPobre() = listaCasas.min({casa =>casa.patrimonio()})
 	
 	method accion(objetivo){
-		const casaPobre = self.buscoCasaPobre()
-		const conyuguePobre = self.buscoIntegranteSoltero(casaPobre)
-		objetivo.casarse(conyuguePobre)
+		const casaPobre = listaCasas.min({casa => casa.patrimonio()})
+		if(casaPobre.miembrosSolteros().size() > 1){
+			const conyugue = casaPobre.miembrosSolteros().head()
+			objetivo.casarse(conyugue)
+		}else{
+			self.error("no se puede casar")
+		}
 	}
 }
-*/
+
 object asesino{
 	
 	method accion(objetivo){

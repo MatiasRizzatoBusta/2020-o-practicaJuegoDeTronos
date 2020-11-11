@@ -1,7 +1,7 @@
 class Animal{
 	method patrimonio() = 0
 	
-	method esPeligroso() 
+	method esPeligroso() = false
 }
 
 class Dragon inherits Animal{
